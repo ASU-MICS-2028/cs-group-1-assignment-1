@@ -36,6 +36,14 @@ const EXPECTED_ORIGIN = process.env.EXPECTED_ORIGIN || `http://${RP_ID}:${PORT}`
 
 const app = express();
 
+/**
+ * Library errors can quote the expected challenge or origin. Keep the reason
+ * for the audit log, but mask any quoted values so no challenge is written out.
+ */
+function safeReason(err) {
+  return String(err?.message || 'unknown error').replace(/"[^"]*"/g, '"<redacted>"');
+}
+
 app.use(express.json());
 
 // Ephemeral per-process session secret if not set via environment (no hardcoded production secrets)
@@ -263,10 +271,11 @@ app.post('/auth/register/verify', async (req, res) => {
   } catch (err) {
     auditLog('REGISTER_VERIFY_FAILED', {
       userId: targetUserId,
-      reason: err.message,
+      reason: safeReason(err),
     });
+    // Generic message: the client learns only that verification failed.
     return res.status(400).json({
-      error: `Registration verification failed: ${err.message}`,
+      error: 'Passkey registration verification failed.',
     });
   }
 });
@@ -402,10 +411,11 @@ app.post('/auth/login/verify', async (req, res) => {
   } catch (err) {
     auditLog('LOGIN_VERIFY_REJECTED', {
       userId: user.id,
-      reason: err.message,
+      reason: safeReason(err),
     });
+    // Generic message: never echo the expected challenge or origin back to the client.
     return res.status(401).json({
-      error: `Authentication verification rejected: ${err.message}`,
+      error: 'Passkey signature verification failed.',
     });
   }
 });
