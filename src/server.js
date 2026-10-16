@@ -445,6 +445,31 @@ app.get('/students/:studentId', requireAuth, authorizeStudentRecordRead, (req, r
 });
 
 /**
+ * GET /courses
+ * Policy:
+ * - Lecturer: only the courses they are assigned to.
+ * - Student: only the courses they are enrolled in.
+ * Returns summary fields only (no roster, no grades); used by the dashboard UI.
+ */
+app.get('/courses', requireAuth, (req, res) => {
+  const actor = req.session.user;
+  const db = readDatabase();
+  const courses = db.courses.filter((c) =>
+    actor.role === 'lecturer'
+      ? c.lecturerId === actor.id
+      : actor.role === 'student' && c.enrolledStudentIds.includes(actor.id)
+  );
+  return res.json({
+    courses: courses.map((c) => ({
+      id: c.id,
+      title: c.title,
+      semester: c.semester,
+      enrolledCount: c.enrolledStudentIds.length,
+    })),
+  });
+});
+
+/**
  * GET /courses/:courseId
  * Policy:
  * - Only the lecturer assigned to :courseId may view the full course roster and grades.
