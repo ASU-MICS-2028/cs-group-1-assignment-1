@@ -1,0 +1,76 @@
+{
+  "users": [
+    {
+      "id": "S001",
+      "name": "Ama Mensah",
+      "email": "ama.mensah@example.edu",
+      "role": "student",
+      "enrollmentCode": "ENROLL-S001-8492",
+      "enrollmentUsed": false,
+      "credentials": []
+    },
+    {
+      "id": "S002",
+      "name": "Kofi Owusu",
+      "email": "kofi.owusu@example.edu",
+      "role": "student",
+      "enrollmentCode": "ENROLL-S002-3174",
+      "enrollmentUsed": false,
+      "credentials": []
+    },
+    {
+      "id": "L001",
+      "name": "Dr. Esi Boateng",
+      "email": "esi.boateng@example.edu",
+      "role": "lecturer",
+      "enrollmentCode": "ENROLL-L001-6059",
+      "enrollmentUsed": false,
+      "credentials": []
+    }
+  ],
+  "courses": [
+    {
+      "id": "C101",
+      "title": "ICS570: Cybersecurity Essentials",
+      "semester": "Fall 2026",
+      "lecturerId": "L001",
+      "enrolledStudentIds": ["S001", "S002"]
+    }
+  ],
+  "studentRecords": {
+    "S001": {
+      "studentId": "S001",
+      "fullName": "Ama Mensah",
+      "program": "MSc Intelligent Computing Systems",
+      "year": 1,
+      "advisor": "Dr. Esi Boateng",
+      "grades": [
+        {
+          "courseId": "C101",
+          "courseTitle": "ICS570: Cybersecurity Essentials",
+          "grade": "B+",
+          "score": 84,
+          "updatedBy": "L001",
+          "updatedAt": "2026-10-01T10:00:00Z"
+        }
+      ]
+    },
+    "S002": {
+      "studentId": "S002",
+      "fullName": "Kofi Owusu",
+      "program": "MSc Intelligent Computing Systems",
+      "year": 1,
+      "advisor": "Dr. Esi Boateng",
+      "grades": [
+        {
+          "courseId": "C101",
+          "courseTitle": "ICS570: Cybersecurity Essentials",
+          "grade": "A-",
+          "score": 88,
+          "updatedBy": "L001",
+          "updatedAt": "2026-10-01T10:00:00Z"
+        }
+      ]
+    }
+  }
+}

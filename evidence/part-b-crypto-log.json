@@ -1,0 +1,18 @@
+{
+  "executedAt": "2026-10-16T18:47:11.307Z",
+  "algorithm": "aes-256-gcm",
+  "nonceBitLength": 96,
+  "encryption1NonceHex": "395d0368af7b839ff4b830e5",
+  "encryption2NonceHex": "950058cc97cf51143cbc8e65",
+  "noncesUnique": true,
+  "authorizedDecryptionExactMatch": true,
+  "ciphertextTamperTest": {
+    "rejected": true,
+    "error": "Unsupported state or unable to authenticate data"
+  },
+  "authTagTamperTest": {
+    "rejected": true,
+    "error": "Unsupported state or unable to authenticate data"
+  },
+  "boundaryExplanation": "AES-GCM provides confidentiality and integrity for data in transit or at rest (such as an exported student transcript file), ensuring that unauthorized parties without the secret key cannot read or silently alter the exported ciphertext. However, encryption does not identify who is sitting at the browser or making an HTTP request; WebAuthn passkey authentication is required to cryptographically prove the live identity of the user (e.g., S001 versus L001). Furthermore, even if the application server holds the AES-GCM key to decrypt records in storage, server-side authorization is still required on every request to decide whether the authenticated user has permission to view a specific student record or modify a course grade. Without authentication and per-request authorization, an application that automatically decrypts records for any logged-in session would still allow S001 to read S002's decrypted record (T6) or overwrite grades (T7)."
+}

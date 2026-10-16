@@ -1,0 +1,18 @@
+{
+  "name": "ics570-lab2-student-records-portal",
+  "version": "1.0.0",
+  "description": "ICS570 Lab 2: Secure Student Records Portal — WebAuthn/FIDO2 Passkey Authentication, Server-Side RBAC & Ownership Authorization, and AES-GCM Record Protection",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "reset": "node src/reset-db.js",
+    "test": "node scripts/run-tests.js",
+    "demo:crypto": "node scripts/part-b-crypto-demo.js"
+  },
+  "dependencies": {
+    "@simplewebauthn/server": "^13.2.2",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "webauthn-polyfills": "^0.1.7"
+  }
+}

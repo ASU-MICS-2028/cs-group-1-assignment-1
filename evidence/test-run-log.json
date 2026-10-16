@@ -1,0 +1,164 @@
+{
+  "executedAt": "2026-10-16T21:40:44.157Z",
+  "origin": "http://localhost:3000",
+  "rpId": "localhost",
+  "allPassed": true,
+  "results": [
+    {
+      "id": "T1",
+      "title": "S001 registers a new passkey through the valid flow",
+      "actor": "S001 (Student)",
+      "action": "POST /auth/register/options + POST /auth/register/verify",
+      "expected": "Credential registered to S001; public key stored server-side",
+      "httpStatus": 200,
+      "observed": {
+        "verified": true,
+        "userId": "S001",
+        "credentialId": "TtbmLFY2_yz56QYghMrjRsXm6kQOqnr0gbihtUU8ouQ",
+        "storedPublicKeyPrefix": "pQECAyYgASFYIOx14x8aeY2O..."
+      },
+      "passed": true
+    },
+    {
+      "id": "T2",
+      "title": "S001 signs in using the registered passkey",
+      "actor": "S001 (Student)",
+      "action": "POST /auth/login/options + POST /auth/login/verify",
+      "expected": "Fresh signed challenge verified; authenticated session created",
+      "httpStatus": 200,
+      "observed": {
+        "verified": true,
+        "user": {
+          "id": "S001",
+          "name": "Ama Mensah",
+          "email": "ama.mensah@example.edu",
+          "role": "student"
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "T3",
+      "title": "Submit an altered/invalid or replayed authentication response",
+      "actor": "Unauthenticated Attacker targeting S001",
+      "action": "POST /auth/login/verify (Replayed T2 assertion + Tampered signature)",
+      "expected": "Server rejects invalid proof or challenge; no session created",
+      "httpStatus": 401,
+      "observed": {
+        "replayAttempt": {
+          "status": 400,
+          "body": {
+            "error": "Authentication rejected: Missing or already-used challenge."
+          }
+        },
+        "tamperedSignatureAttempt": {
+          "status": 401,
+          "body": {
+            "error": "Passkey signature verification failed."
+          }
+        },
+        "sessionCreated": false
+      },
+      "passed": true
+    },
+    {
+      "id": "T4",
+      "title": "Request a protected record without an authenticated session",
+      "actor": "Unauthenticated Visitor",
+      "action": "GET /students/S001 (No session cookie)",
+      "expected": "Denied (HTTP 401)",
+      "httpStatus": 401,
+      "observed": {
+        "error": "Authentication required: No valid session."
+      },
+      "passed": true
+    },
+    {
+      "id": "T5",
+      "title": "S001 requests own student record (S001)",
+      "actor": "S001 (Authenticated Student)",
+      "action": "GET /students/S001",
+      "expected": "Allowed (HTTP 200)",
+      "httpStatus": 200,
+      "observed": {
+        "record": {
+          "studentId": "S001",
+          "fullName": "Ama Mensah",
+          "program": "MSc Intelligent Computing Systems",
+          "year": 1,
+          "advisor": "Dr. Esi Boateng",
+          "grades": [
+            {
+              "courseId": "C101",
+              "courseTitle": "ICS570: Cybersecurity Essentials",
+              "grade": "B+",
+              "score": 84,
+              "updatedBy": "L001",
+              "updatedAt": "2026-10-01T10:00:00Z"
+            }
+          ]
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "T6",
+      "title": "S001 requests S002 record by changing URL/ID (Direct curl request)",
+      "actor": "S001 (Authenticated Student)",
+      "action": "curl -i -s -X GET http://localhost:3000/students/S002 -H \"Cookie: <S001-session>\"",
+      "expected": "Denied by server (HTTP 403 Forbidden)",
+      "httpStatus": 403,
+      "observed": {
+        "error": "Forbidden: Students may only view their own academic record."
+      },
+      "passed": true,
+      "rawCurlOutput": "HTTP/1.1 403 Forbidden\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 72\r\nETag: W/\"48-4BJC3RXLs01YSdNfzQ50s56hpoU\"\r\nDate: Fri, 16 Oct 2026 21:40:44 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"error\":\"Forbidden: Students may only view their own academic record.\"}"
+    },
+    {
+      "id": "T7",
+      "title": "S001 invokes the lecturer grade-update endpoint directly",
+      "actor": "S001 (Authenticated Student)",
+      "action": "curl -i -s -X POST http://localhost:3000/courses/C101/grades/S001 -d '{\"grade\":\"A\",\"score\":100}'",
+      "expected": "Denied by server (HTTP 403); grade remains unchanged (B+)",
+      "httpStatus": 403,
+      "observed": {
+        "response": {
+          "error": "Forbidden: Only lecturers assigned to the course may update grades."
+        },
+        "gradeBefore": "B+",
+        "gradeAfter": "B+"
+      },
+      "passed": true,
+      "rawCurlOutput": "HTTP/1.1 403 Forbidden\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 79\r\nETag: W/\"4f-GHPH5TMVeRHyUsc2Q3mCGKBBOnw\"\r\nDate: Fri, 16 Oct 2026 21:40:44 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"error\":\"Forbidden: Only lecturers assigned to the course may update grades.\"}"
+    },
+    {
+      "id": "T8",
+      "title": "L001 updates a grade in assigned course C101",
+      "actor": "L001 (Authenticated Lecturer assigned to C101)",
+      "action": "POST /courses/C101/grades/S001 {\"grade\":\"A\",\"score\":94}",
+      "expected": "Allowed (HTTP 200); server verifies lecturer/course relationship and updates grade",
+      "httpStatus": 200,
+      "observed": {
+        "updated": true,
+        "record": {
+          "studentId": "S001",
+          "fullName": "Ama Mensah",
+          "program": "MSc Intelligent Computing Systems",
+          "year": 1,
+          "advisor": "Dr. Esi Boateng",
+          "grades": [
+            {
+              "courseId": "C101",
+              "courseTitle": "ICS570: Cybersecurity Essentials",
+              "grade": "A",
+              "score": 94,
+              "updatedBy": "L001",
+              "updatedAt": "2026-10-16T21:40:44.156Z"
+            }
+          ]
+        }
+      },
+      "passed": true
+    }
+  ]
+}

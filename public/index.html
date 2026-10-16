@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ashesi University — Secure Student Records Portal (ICS570 Lab 2)</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "webauthn-polyfills": "/vendor/webauthn-polyfills/esm/index.js",
+        "compare-versions": "/vendor/compare-versions/lib/esm/index.js",
+        "ua-parser-js": "/vendor/ua-parser-esm.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <span class="brand-badge">ICS570</span>
+        <div>
+          <h1>Secure Student Records Portal</h1>
+          <p class="subtitle">FIDO2 / WebAuthn Passkeys &amp; Server-Side RBAC Enforcement</p>
+        </div>
+      </div>
+      <div class="session-bar" id="session-bar">
+        <span class="status-pill unauthenticated" id="session-status-pill">Unauthenticated Visitor</span>
+        <button type="button" id="logout-btn" class="btn btn-danger hidden">Sign Out (POST /logout)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-grid">
+    <!-- Left Column: Authentication & Role Workspace -->
+    <section class="column">
+      <!-- Accounts Overview Card -->
+      <div class="card">
+        <div class="card-header">
+          <h2>1. Seeded Synthetic Accounts</h2>
+          <button type="button" id="reset-db-btn" class="btn btn-secondary btn-sm" title="Reset database to initial seed state">
+            Reset Seed Data
+          </button>
+        </div>
+        <p class="muted-text">
+          Synthetic accounts seeded in <code>data/seed.json</code>. Each account has a one-time enrollment token for initial passkey registration.
+        </p>
+        <div class="table-wrap">
+          <table class="data-table" id="accounts-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name &amp; Role</th>
+                <th>One-Time Enrollment Code</th>
+                <th>Passkeys</th>
+                <th>Quick Fill</th>
+              </tr>
+            </thead>
+            <tbody id="accounts-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Passkey Registration & Sign-In Card -->
+      <div class="card" id="auth-card">
+        <h2>2. WebAuthn Passkey Enrollment &amp; Sign-In</h2>
+        <div id="passkey-capability-banner" class="banner banner-info">
+          Checking WebAuthn / Passkey platform capabilities...
+        </div>
+
+        <div class="auth-split">
+          <!-- Registration Form -->
+          <form id="register-form" class="auth-pane">
+            <h3>Register a Passkey (T1)</h3>
+            <p class="muted-text">Protected by one-time enrollment verification before issuing challenge.</p>
+            <label for="reg-user-id">Account ID</label>
+            <select id="reg-user-id" name="userId" required>
+              <option value="S001">S001 — Ama Mensah (Student)</option>
+              <option value="S002">S002 — Kofi Owusu (Student)</option>
+              <option value="L001">L001 — Dr. Esi Boateng (Lecturer)</option>
+            </select>
+
+            <label for="reg-enrollment-code">One-Time Enrollment Code</label>
+            <input
+              type="text"
+              id="reg-enrollment-code"
+              name="enrollmentCode"
+              value="ENROLL-S001-8492"
+              placeholder="e.g. ENROLL-S001-8492"
+              required
+            />
+
+            <button type="submit" id="create-passkey-btn" class="btn btn-primary">
+              Register Passkey (WebAuthn Create)
+            </button>
+          </form>
+
+          <!-- Sign-In Form -->
+          <form id="signin-form" class="auth-pane">
+            <h3>Sign In with Passkey (T2)</h3>
+            <p class="muted-text">Verifies fresh challenge, origin, RP ID, and signature counter.</p>
+            <label for="login-user-id">Account ID (or leave blank for Discoverable)</label>
+            <input
+              type="text"
+              id="login-user-id"
+              name="username"
+              autocomplete="username webauthn"
+              autofocus
+              value="S001"
+              placeholder="S001, S002, L001, or empty"
+              data-testid="username-field"
+            />
+
+            <button type="submit" id="signin-passkey-btn" class="btn btn-accent">
+              Sign In with Passkey (WebAuthn Get)
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Authenticated Portal Workspace -->
+      <div class="card" id="workspace-card">
+        <h2>3. Portal Operations &amp; Direct Endpoint Probes (T3–T8)</h2>
+        <p class="muted-text">
+          All authorization decisions are enforced on the server in <code>src/middleware/authz.js</code>. Buttons below let you trigger both permitted and prohibited API requests directly to observe server enforcement.
+        </p>
+
+        <div class="probe-grid">
+          <div class="probe-box">
+            <h4>Read Student Records (<code>GET /students/:id</code>)</h4>
+            <div class="btn-row">
+              <button type="button" class="btn btn-outline" data-probe="read-s001">
+                Request S001 Record (T4 / T5)
+              </button>
+              <button type="button" class="btn btn-outline" data-probe="read-s002">
+                Request S002 Record (T6 ID Tamper)
+              </button>
+            </div>
+          </div>
+
+          <div class="probe-box">
+            <h4>Lecturer Course Roster (<code>GET /courses/C101</code>)</h4>
+            <div class="btn-row">
+              <button type="button" class="btn btn-outline" data-probe="read-c101">
+                Load C101 Roster
+              </button>
+              <button type="button" class="btn btn-outline" data-probe="tamper-login">
+                Submit Tampered/Replayed Login (T3)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <form id="grade-update-form" class="grade-form">
+          <h4>Update Course Grade (<code>POST /courses/:courseId/grades/:studentId</code>) — T7 &amp; T8</h4>
+          <div class="form-row">
+            <div>
+              <label for="grade-course-id">Course ID</label>
+              <input type="text" id="grade-course-id" value="C101" required />
+            </div>
+            <div>
+              <label for="grade-student-id">Student ID</label>
+              <select id="grade-student-id">
+                <option value="S001">S001 (Ama Mensah)</option>
+                <option value="S002">S002 (Kofi Owusu)</option>
+              </select>
+            </div>
+            <div>
+              <label for="grade-letter">Letter Grade</label>
+              <select id="grade-letter">
+                <option value="A">A</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B">B</option>
+                <option value="C+">C+</option>
+              </select>
+            </div>
+            <div>
+              <label for="grade-score">Score (0–100)</label>
+              <input type="number" id="grade-score" value="95" min="0" max="100" required />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Submit Grade Update Request (POST /courses/C101/grades/:studentId)
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Right Column: Live Record View & HTTP Inspector Log -->
+    <aside class="column">
+      <div class="card">
+        <h2>Active Record / Roster Response</h2>
+        <pre id="record-viewer" class="code-box">No record loaded yet. Sign in or trigger a request on the left.</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>HTTP Security Audit Log</h2>
+          <button type="button" id="clear-log-btn" class="btn btn-secondary btn-sm">Clear Log</button>
+        </div>
+        <p class="muted-text">Displays HTTP method, route, status code, and sanitized server response.</p>
+        <div id="audit-log-list" class="log-list"></div>
+      </div>
+    </aside>
+  </main>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
