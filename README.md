@@ -8,7 +8,18 @@ A simplified university records portal demonstrating **FIDO2/WebAuthn passkey au
 - **Frontend:** No build step. Static HTML/CSS + ES modules in `public/` (sign-in/enrollment, dashboard, record, course roster, Security Lab). Native Browser WebAuthn API (`navigator.credentials.create` / `get`, `PublicKeyCredential.parseCreationOptionsFromJSON` / `parseRequestOptionsFromJSON`, `webauthn-polyfills`)
 - **Datastore:** Canonical synthetic seed in `data/seed.json`, copied at runtime to `data/db.json`
 
-UI screenshots (Chromium + virtual authenticator): [`docs/ui/`](docs/ui/).
+<table>
+<tr>
+<td width="50%"><img src="docs/ui/01-sign-in.png" alt="Passkey sign-in"><br><sub>Passkey sign-in (T2)</sub></td>
+<td width="50%"><img src="docs/ui/02-student-dashboard.png" alt="Student dashboard"><br><sub>Student dashboard after sign-in</sub></td>
+</tr>
+<tr>
+<td><img src="docs/ui/03-T6-denied.png" alt="T6 denied"><br><sub>S001 opens S002's record → server 403 (T6)</sub></td>
+<td><img src="docs/ui/04-T8-lecturer-roster.png" alt="Lecturer roster"><br><sub>L001 updates a C101 grade (T8)</sub></td>
+</tr>
+</table>
+
+Per-test evidence screenshots: [`evidence/screenshots/`](evidence/screenshots/) · evidence report: [`EVIDENCE_REPORT.md`](EVIDENCE_REPORT.md) · Part B: [`PART_B_ADDENDUM.md`](PART_B_ADDENDUM.md)
 
 ## 2. Installation & Run Commands
 ```bash
@@ -26,6 +37,10 @@ npm test
 
 # 5. Run Part B AES-256-GCM encryption & tamper-detection demo
 npm run demo:crypto
+
+# 6. (Optional) Real-browser T1–T8 run + screenshots (Chromium virtual authenticator)
+npm install --no-save playwright && npx playwright install chromium
+node scripts/browser-evidence.mjs
 ```
 
 ## 3. Browser / Authenticator Setup

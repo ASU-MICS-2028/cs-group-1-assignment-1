@@ -1,10 +1,19 @@
 # AI / Tools Declaration — ICS570 Lab 2: Secure Student Records Portal
 
 ## 1. Tools Used
-- **Libraries & Runtime:** Node.js (`v26.11.1`), Express (`express`), `express-session`, `@simplewebauthn/server` (`v13.2.2`), `webauthn-polyfills` (`v0.1.7`), and `curl` for direct HTTP security testing.
+- **Group:** _(add group member names and student IDs)_
+- **Libraries & Runtime:** Node.js (`v26.11.1`), Express (`express`), `express-session`, `@simplewebauthn/server` (`v13.2.2`), `webauthn-polyfills` (`v0.1.7`), `curl` for direct HTTP security testing, and Playwright with Chromium's virtual WebAuthn authenticator for the optional real-browser evidence run.
 - **AI Assistance:**
   - **Google Antigravity** was used to scaffold the Express route structure, WebAuthn options/verification wiring with `@simplewebauthn/server`, the automated FIDO2 test harness (`scripts/run-tests.js`), and formatting of the documentation tables.
   - **Claude Code (Anthropic)** was used to review the implementation and documentation against the assignment brief, replace the seeded account emails with the reserved `example.edu` domain, re-run the T1–T8 suite, and draft the group hand-over checklist (`TODO.md`). The group checked its review findings against the source code before acting on them.
+  - **Claude Code (Anthropic)** was also used to:
+    - redesign the browser UI in `public/` (sign-in/enrollment, dashboard, record, roster, Security Lab) while keeping the same stack;
+    - add the `GET /courses` summary route;
+    - make passkey verification failures return generic error messages, with challenge values masked in the audit log;
+    - write `scripts/browser-evidence.mjs`, which captured the real-browser screenshots in `evidence/screenshots/`;
+    - update `EVIDENCE_REPORT.md` and split out `PART_B_ADDENDUM.md`.
+
+    The security analysis (Section 4 of the report) was not rewritten by AI. _(Group: confirm which of these changes you reviewed and re-ran yourselves.)_
 
 ## 2. Independent Verification & Testing Performed
 - **Passkey Registration & Sign-In (T1–T3):** Verified that `@simplewebauthn/server` validates the one-time session challenge, `expectedOrigin` (`http://localhost:3000`), `expectedRPID` (`localhost`), user presence (`UP`), and ECDSA P-256 signature counter. Confirmed that replaying a captured assertion (`T3`) fails with `HTTP 400` because challenges are immediately deleted from `req.session` upon first verification attempt, and mutating a signature byte fails with `HTTP 401`.
