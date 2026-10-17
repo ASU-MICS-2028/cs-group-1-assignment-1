@@ -31,6 +31,8 @@ function summarise(path, body) {
   return body;
 }
 
+const REQUEST_TIMEOUT_MS = 20000;
+
 /**
  * Low-level request: never throws on HTTP status.
  * withSession=false omits the session cookie (used to demonstrate T4).
@@ -45,12 +47,18 @@ export async function request(method, path, body, { label = '', withSession = tr
       credentials: withSession ? 'same-origin' : 'omit',
       headers: body !== undefined ? { 'Content-Type': 'application/json', Accept: 'application/json' } : { Accept: 'application/json' },
       body: body !== undefined ? JSON.stringify(body) : undefined,
+      // Never let a stalled server leave the UI spinning.
+      signal: AbortSignal.timeout ? AbortSignal.timeout(REQUEST_TIMEOUT_MS) : undefined,
     });
     status = res.status;
     const text = await res.text();
     try { data = text ? JSON.parse(text) : null; } catch { data = text; }
   } catch (err) {
-    data = { error: `Network error: ${err.message}` };
+    data = {
+      error: err?.name === 'TimeoutError'
+        ? `The server did not respond within ${REQUEST_TIMEOUT_MS / 1000} seconds. Is \`npm start\` still running?`
+        : `Network error: ${err.message}`,
+    };
   }
   const entry = {
     label, method, path, status, withSession,

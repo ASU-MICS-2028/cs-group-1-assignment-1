@@ -5,7 +5,7 @@ import 'webauthn-polyfills';
 import { esc, initials, request, toast } from './core.js';
 import { icon } from './icons.js';
 import { monitorIllustration } from './illustrations.js';
-import { registerPasskey, friendlyError } from './passkeys.js';
+import { PROMPT_TIMEOUT_SECONDS, friendlyError, registerPasskey } from './passkeys.js';
 import { renderEnroll, renderLogin } from './views/auth.js';
 import { renderDashboard } from './views/dashboard.js';
 import { renderLab } from './views/lab.js';
@@ -116,12 +116,18 @@ async function logout() {
   navigate('#/login');
 }
 
+let addingPasskey = false;
 async function addPasskey() {
+  if (addingPasskey) return;
+  addingPasskey = true;
+  toast(`Follow your browser's passkey prompt. It gives up after ${PROMPT_TIMEOUT_SECONDS} s if nothing happens.`, 'info');
   try {
     await registerPasskey({ userId: state.user.id, rpId: state.rpId });
     toast('Passkey added. Its public key is now linked to your account.', 'success');
   } catch (err) {
     toast(err.status ? err.message : friendlyError(err), 'error');
+  } finally {
+    addingPasskey = false;
   }
 }
 
