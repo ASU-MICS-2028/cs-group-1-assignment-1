@@ -146,6 +146,8 @@ input, select, textarea { font: inherit; color: inherit; }
 .works-with { margin-top: 2rem; text-align: center; font-size: .875rem; color: rgb(43 37 38 / .8); }
 .auth-foot { text-align: center; font-size: .875rem; color: rgb(43 37 38 / .8); }
 .link { font-weight: 600; color: var(--maroon-700); border: 0; background: none; padding: 0; }
+.waiting-hint { margin: 0; text-align: center; }
+.waiting-hint .link { font-size: inherit; text-decoration: underline; cursor: pointer; }
 .link:hover { text-decoration: underline; }
 .fine { margin-top: 1.5rem; text-align: center; font-size: .75rem; line-height: 1.6; color: rgb(43 37 38 / .7); }
 .success-mark {

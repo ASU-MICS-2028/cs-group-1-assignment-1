@@ -2,7 +2,10 @@
 import { LAB_ACCOUNTS, esc, spinner, toast } from '../core.js';
 import { icon } from '../icons.js';
 import { studyScene } from '../illustrations.js';
-import { capabilities, friendlyError, passkeysSupported, registerPasskey, signIn, startConditionalSignIn, stopConditionalSignIn } from '../passkeys.js';
+import {
+  PROMPT_TIMEOUT_SECONDS, cancelPasskeyPrompt, capabilities, friendlyError, passkeysSupported,
+  registerPasskey, signIn, startConditionalSignIn, stopConditionalSignIn,
+} from '../passkeys.js';
 import { brandMark } from './shared.js';
 
 const METHODS = [
@@ -11,7 +14,29 @@ const METHODS = [
   ['usb', 'Security key'],
 ];
 
-function shell(inner) {
+// Passkeys are bound to the RP ID, so 127.0.0.1 or a LAN IP fails even when localhost works.
+function hostBanner(rpId) {
+  if (!rpId || location.hostname === rpId) return '';
+  const url = new URL(location.href);
+  url.hostname = rpId;
+  return `<p role="alert" class="alert">${icon('alert', 'icon-sm')} <span>Passkeys for this portal only work at
+    <a class="link" href="${esc(url.href)}">${esc(url.origin)}</a>. You opened it at ${esc(location.host)}.</span></p>`;
+}
+
+/** Shows what to do while the browser prompt is open, with a way out if none appeared. */
+function showWaitingHint(btn) {
+  const hint = document.createElement('p');
+  hint.className = 'fine waiting-hint';
+  hint.setAttribute('role', 'status');
+  hint.innerHTML = `Your browser should now show a passkey prompt. Nothing appeared?
+    <button type="button" class="link" data-cancel-prompt>Cancel</button>
+    (it gives up on its own after ${PROMPT_TIMEOUT_SECONDS} s).`;
+  hint.querySelector('[data-cancel-prompt]').addEventListener('click', cancelPasskeyPrompt);
+  btn.after(hint);
+  return () => hint.remove();
+}
+
+function shell(inner, rpId) {
   return `
   <div class="auth-page">
     <div class="auth-frame">
@@ -25,6 +50,7 @@ function shell(inner) {
       <div class="auth-panel">
         <div class="auth-card">
           ${brandMark()}
+          ${hostBanner(rpId)}
           <div class="auth-body">${inner}</div>
           <p class="auth-foot">
             Testing access control? <a class="link" href="#/lab">Open the Security Lab</a>
@@ -73,7 +99,7 @@ export function renderLogin(root, ctx) {
     <p class="works-with">works with</p>
     <ul class="methods">${METHODS.map(([i, l]) => `<li title="${l}">${icon(i, 'icon', 2)}<span class="sr-only">${l}</span></li>`).join('')}</ul>
     <p class="fine" id="rp-line">Synthetic lab data only. Relying party: <b>${esc(ctx.rpId)}</b>.</p>
-  `);
+  `, ctx.rpId);
   bindTabs(root, ctx.navigate);
 
   const form = root.querySelector('#signin-form');
@@ -92,9 +118,13 @@ export function renderLogin(root, ctx) {
     errorHost.innerHTML = '';
     btn.disabled = true;
     btn.innerHTML = `${spinner()} <span>Waiting for your passkey…</span>`;
+    const hideHint = showWaitingHint(btn);
     try {
-      signedIn(await signIn(input.value.trim(), ctx.rpId));
+      const user = await signIn(input.value.trim(), ctx.rpId);
+      hideHint();
+      signedIn(user);
     } catch (err) {
+      hideHint();
       errorHost.innerHTML = errorBox(err.status ? err.message : friendlyError(err));
       btn.disabled = false;
       btn.innerHTML = `${icon('key')} <span>Sign In with Passkey</span>`;
@@ -131,7 +161,7 @@ export function renderEnroll(root, ctx) {
     </form>
     <p class="fine">Each code works once and only for its own account. After it is used, add further passkeys from inside the portal while signed in.</p>`;
 
-  root.innerHTML = shell(form());
+  root.innerHTML = shell(form(), ctx.rpId);
   bindTabs(root, ctx.navigate);
 
   root.querySelector('#register-form').addEventListener('submit', async (e) => {
@@ -143,8 +173,10 @@ export function renderEnroll(root, ctx) {
     errorHost.innerHTML = '';
     btn.disabled = true;
     btn.innerHTML = `${spinner()} <span>Follow your browser prompt…</span>`;
+    const hideHint = showWaitingHint(btn);
     try {
       const result = await registerPasskey({ userId, enrollmentCode, rpId: ctx.rpId });
+      hideHint();
       sessionStorage.setItem('portal.lastId', result.userId);
       root.querySelector('.auth-body').innerHTML = `
         <div style="text-align:center">
@@ -159,6 +191,7 @@ export function renderEnroll(root, ctx) {
         </div>`;
       bindTabs(root, ctx.navigate);
     } catch (err) {
+      hideHint();
       errorHost.innerHTML = errorBox(err.status ? err.message : friendlyError(err));
       btn.disabled = false;
       btn.innerHTML = `${icon('fingerprint')} <span>Register Passkey</span>`;
