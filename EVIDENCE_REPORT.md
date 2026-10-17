@@ -1,6 +1,14 @@
 # ICS570 Lab 2: Secure Student Records Portal — Evidence & Security Analysis Report
 
-**Group:** _(add group member names and student IDs)_  
+**Group 1 members:**
+
+| Student ID | Name |
+|---|---|
+| G35532028 | Elise Oyilonye Kennedy-Angbo |
+| G90412028 | Joseph Delali Kodzo Etse |
+| G01322028 | Liza Ekua Ndede Aikins |
+| G25522028 | Eugene Emmanuel Sewor |
+
 **Course:** ICS570: Cybersecurity Essentials (Module 3: Identity and Access Control)  
 **Application Origin / RP ID:** `http://localhost:3000` (`rpId: "localhost"`)  
 **Stack:** Node.js, Express, `express-session`, `@simplewebauthn/server`, native browser WebAuthn API (static HTML/CSS/ES-module UI)

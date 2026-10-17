@@ -2,6 +2,8 @@
 
 A simplified university records portal demonstrating **FIDO2/WebAuthn passkey authentication**, **independent per-request server-side RBAC and record-ownership authorization**, and **AES-256-GCM authenticated encryption** (Part B).
 
+**Group 1 (ICS570):** Elise Oyilonye Kennedy-Angbo (G35532028); Joseph Delali Kodzo Etse (G90412028); Liza Ekua Ndede Aikins (G01322028); Eugene Emmanuel Sewor (G25522028).
+
 ## 1. Technology Stack & Prerequisites
 - **Runtime:** Node.js `v20+` (tested on Node `v26.11.1`) and `npm`
 - **Backend:** Express (`express`), `express-session` (`httpOnly`, `sameSite=lax`), `@simplewebauthn/server`

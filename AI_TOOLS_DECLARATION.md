@@ -1,7 +1,7 @@
 # AI / Tools Declaration — ICS570 Lab 2: Secure Student Records Portal
 
 ## 1. Tools Used
-- **Group:** _(add group member names and student IDs)_
+- **Group 1 members:** Elise Oyilonye Kennedy-Angbo (G35532028); Joseph Delali Kodzo Etse (G90412028); Liza Ekua Ndede Aikins (G01322028); Eugene Emmanuel Sewor (G25522028).
 - **Libraries & Runtime:** Node.js (`v26.11.1`), Express (`express`), `express-session`, `@simplewebauthn/server` (`v13.2.2`), `webauthn-polyfills` (`v0.1.7`), `curl` for direct HTTP security testing, and Playwright with Chromium's virtual WebAuthn authenticator for the optional real-browser evidence run.
 - **AI Assistance:**
   - **Google Antigravity** was used to scaffold the Express route structure, WebAuthn options/verification wiring with `@simplewebauthn/server`, the automated FIDO2 test harness (`scripts/run-tests.js`), and formatting of the documentation tables.

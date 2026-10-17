@@ -34,7 +34,7 @@ The brief says a visitor who isn't logged in should see only the login and regis
 - [x] Rerun `npm test`. It must still show 8x PASS. (Done: 8x PASS plus the logout check.)
 
 ## 3. Fix the evidence report (`EVIDENCE_REPORT.md`)
-- [ ] Add the **group names and student IDs** at the top. Add them to `README.md` and `AI_TOOLS_DECLARATION.md` too.
+- [x] Add the **group names and student IDs** at the top. Add them to `README.md` and `AI_TOOLS_DECLARATION.md` too.
 - [x] **T1 credential ID:** the report says `tTSL95…`, but the log changes on every `npm test` run. Run the tests one last time, copy `credentialId` from `evidence/test-run-log.json` into the T1 row, and don't rerun after that. Alternatively, write "random per run".
 - [x] **Section 2.2 wording:** it says the grade endpoint is "not offered to students", but the UI shows the grade form and a "Request S002 Record" button to everyone. Change it to say the T6/T7 evidence comes from **direct curl requests that bypass the UI**. Those still meet the "request the UI did not offer" rule.
 - [x] Add the browser screenshots from step 1, with labels.

@@ -1,6 +1,14 @@
 # ICS570 Lab 2 — Part B Addendum: AES-GCM Protection of a Student-Data Export
 
-**Group:** _(add group member names and student IDs)_  
+**Group 1 members:**
+
+| Student ID | Name |
+|---|---|
+| G35532028 | Elise Oyilonye Kennedy-Angbo |
+| G90412028 | Joseph Delali Kodzo Etse |
+| G01322028 | Liza Ekua Ndede Aikins |
+| G25522028 | Eugene Emmanuel Sewor |
+
 Run with `npm run demo:crypto` (`scripts/part-b-crypto-demo.js`, log in `evidence/part-b-crypto-log.json`). The script uses Node's built-in `crypto` AES-256-GCM; no AES is implemented by hand.
 
 ```text
