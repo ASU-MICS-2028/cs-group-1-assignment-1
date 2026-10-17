@@ -28,10 +28,10 @@ All the evidence so far comes from the software authenticator in `scripts/run-te
 
 ## 2. Close the two routes that are open without a login
 The brief says a visitor who isn't logged in should see only the login and registration page.
-- [ ] `POST /api/dev/reset` (`src/server.js`, around line 531) wipes the database, grades included, and anyone can call it. Delete the route, or wrap it in `if (process.env.NODE_ENV !== 'production')` **and** `requireAuth`. Nothing else depends on it, because the tests call `resetDatabase()` directly.
-- [ ] `GET /api/accounts-overview` (around line 103) lists every user's name, email and role. The UI calls it at `public/app.js` line 52 to fill the account dropdown, so either hard-code the three IDs (S001, S002, L001) in `public/index.html` and remove that fetch, or keep the route but return only `id` and `role`.
+- [x] ~~`POST /api/dev/reset` (`src/server.js`, around line 531) wipes the database, grades included, and anyone can call it. Delete the route, or wrap it in `if (process.env.NODE_ENV !== 'production')` **and** `requireAuth`. Nothing else depends on it, because the tests call `resetDatabase()` directly.~~ **Removed.** Use `npm run reset` locally.
+- [x] ~~`GET /api/accounts-overview` (around line 103) lists every user's name, email and role. The UI calls it at `public/app.js` line 52 to fill the account dropdown, so either hard-code the three IDs (S001, S002, L001) in `public/index.html` and remove that fetch, or keep the route but return only `id` and `role`.~~ **Removed.** The UI hard-codes the three IDs in `public/js/core.js`.
 - Note: the redesigned UI (`public/js/`) no longer calls `/api/accounts-overview` or `/api/dev/reset`, so both routes can be removed without touching the frontend.
-- [ ] Rerun `npm test`. It must still show 8x PASS.
+- [x] Rerun `npm test`. It must still show 8x PASS. (Done: 8x PASS plus the logout check.)
 
 ## 3. Fix the evidence report (`EVIDENCE_REPORT.md`)
 - [ ] Add the **group names and student IDs** at the top. Add them to `README.md` and `AI_TOOLS_DECLARATION.md` too.
