@@ -11,7 +11,6 @@ const {
 
 const {
   readDatabase,
-  resetDatabase,
   getUserById,
   findUserByCredentialId,
   saveCredentialForUser,
@@ -103,22 +102,6 @@ app.get('/auth/session', (req, res) => {
     authenticated: false,
     rpId: RP_ID,
   });
-});
-
-/**
- * Returns synthetic directory metadata for the lab UI (never exposes private keys or session tokens).
- */
-app.get('/api/accounts-overview', (_req, res) => {
-  const db = readDatabase();
-  const accounts = db.users.map((u) => ({
-    id: u.id,
-    name: u.name,
-    email: u.email,
-    role: u.role,
-    enrollmentUsed: Boolean(u.enrollmentUsed),
-    credentialCount: (u.credentials || []).length,
-  }));
-  return res.json({ rpId: RP_ID, origin: EXPECTED_ORIGIN, accounts });
 });
 
 // ============================================================================
@@ -559,19 +542,6 @@ app.post(
     });
   }
 );
-
-/**
- * Lab helper endpoint: Reset database to seed state (only available in local development).
- */
-app.post('/api/dev/reset', (req, res) => {
-  resetDatabase();
-  if (req.session) {
-    req.session.destroy(() => {});
-  }
-  res.clearCookie('portal.sid');
-  auditLog('DB_RESET_TO_SEED', {});
-  return res.json({ reset: true });
-});
 
 if (require.main === module) {
   app.listen(PORT, () => {

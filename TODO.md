@@ -28,22 +28,22 @@ All the evidence so far comes from the software authenticator in `scripts/run-te
 
 ## 2. Close the two routes that are open without a login
 The brief says a visitor who isn't logged in should see only the login and registration page.
-- [ ] `POST /api/dev/reset` (`src/server.js`, around line 531) wipes the database, grades included, and anyone can call it. Delete the route, or wrap it in `if (process.env.NODE_ENV !== 'production')` **and** `requireAuth`. Nothing else depends on it, because the tests call `resetDatabase()` directly.
-- [ ] `GET /api/accounts-overview` (around line 103) lists every user's name, email and role. The UI calls it at `public/app.js` line 52 to fill the account dropdown, so either hard-code the three IDs (S001, S002, L001) in `public/index.html` and remove that fetch, or keep the route but return only `id` and `role`.
+- [x] ~~`POST /api/dev/reset` (`src/server.js`, around line 531) wipes the database, grades included, and anyone can call it. Delete the route, or wrap it in `if (process.env.NODE_ENV !== 'production')` **and** `requireAuth`. Nothing else depends on it, because the tests call `resetDatabase()` directly.~~ **Removed.** Use `npm run reset` locally.
+- [x] ~~`GET /api/accounts-overview` (around line 103) lists every user's name, email and role. The UI calls it at `public/app.js` line 52 to fill the account dropdown, so either hard-code the three IDs (S001, S002, L001) in `public/index.html` and remove that fetch, or keep the route but return only `id` and `role`.~~ **Removed.** The UI hard-codes the three IDs in `public/js/core.js`.
 - Note: the redesigned UI (`public/js/`) no longer calls `/api/accounts-overview` or `/api/dev/reset`, so both routes can be removed without touching the frontend.
-- [ ] Rerun `npm test`. It must still show 8x PASS.
+- [x] Rerun `npm test`. It must still show 8x PASS. (Done: 8x PASS plus the logout check.)
 
 ## 3. Fix the evidence report (`EVIDENCE_REPORT.md`)
-- [ ] Add the **group names and student IDs** at the top. Add them to `README.md` and `AI_TOOLS_DECLARATION.md` too.
+- [x] Add the **group names and student IDs** at the top. Add them to `README.md` and `AI_TOOLS_DECLARATION.md` too.
 - [x] **T1 credential ID:** the report says `tTSL95…`, but the log changes on every `npm test` run. Run the tests one last time, copy `credentialId` from `evidence/test-run-log.json` into the T1 row, and don't rerun after that. Alternatively, write "random per run".
 - [x] **Section 2.2 wording:** it says the grade endpoint is "not offered to students", but the UI shows the grade form and a "Request S002 Record" button to everyone. Change it to say the T6/T7 evidence comes from **direct curl requests that bypass the UI**. Those still meet the "request the UI did not offer" rule.
 - [x] Add the browser screenshots from step 1, with labels.
-- [ ] **Length: 2–3 pages maximum.** ~~Trim section 2.4 to just the two `if` checks.~~ Done. ~~Move Part B into `PART_B_ADDENDUM`.~~ Done (`PART_B_ADDENDUM.md`). Check the page count when exporting to PDF; if it runs over, drop Fig. 5 or the 2.3 log excerpt.
-- [ ] Keep section 4 (the analysis, renumbered from 3) between 250 and 350 words. It's 336 now, so don't add to it.
-- [ ] Export the report to PDF.
+- [x] **Length: 2–3 pages maximum.** Done: the PDF is 3 pages. ~~Trim section 2.4 to just the two `if` checks.~~ Done. ~~Move Part B into `PART_B_ADDENDUM`.~~ Done (`PART_B_ADDENDUM.md`). Check the page count when exporting to PDF; if it runs over, drop Fig. 5 or the 2.3 log excerpt.
+- [x] Keep section 3 (the analysis) between 250 and 350 words. It's 336 now, so don't add to it.
+- [x] Export the report to PDF. Done: `submission/ICS570-Lab2-Group1-Evidence-Report.pdf`.
 
 ## 4. Package and submit (one person submits for the whole group; Canvas allows 2 attempts)
 - [x] ~~`git add -A && git commit`~~ Done: the repo now has commits on `main` and on the `claude/blissful-galileo-k256pg` branch (UI redesign + evidence). Merge that branch before submitting.
 - [ ] Push to a repo the marker can access, **or** zip the folder **without `node_modules/`** and `data/db.json`.
 - [ ] Upload: the code (zip or link), `README.md`, the evidence report PDF, `AI_TOOLS_DECLARATION.md`, and the optional Part B addendum.
-- [ ] Before uploading, check that the README still fits on one page. It now includes a 2×2 screenshot grid; if it runs over, remove the grid (the screenshots are also in the evidence report).
+- [x] Before uploading, check that the README still fits on one page. Done: `submission/ICS570-Lab2-Group1-README.pdf` is 1 page. It now includes a 2×2 screenshot grid; if it runs over, remove the grid (the screenshots are also in the evidence report).
