@@ -13,7 +13,7 @@
     - write `scripts/browser-evidence.mjs`, which captured the real-browser screenshots in `evidence/screenshots/`;
     - update `EVIDENCE_REPORT.md` and split out `PART_B_ADDENDUM.md`.
 
-    The security analysis (Section 4 of the report) was not rewritten by AI. _(Group: confirm which of these changes you reviewed and re-ran yourselves.)_
+    The security analysis (Section 3 of the evidence report) was not rewritten by AI. The group reviewed these changes through pull requests on the group repository before merging them. `npm test` was re-run on the merged code: 8/8 PASS plus the logout check.
 
 ## 2. Independent Verification & Testing Performed
 - **Passkey Registration & Sign-In (T1–T3):** Verified that `@simplewebauthn/server` validates the one-time session challenge, `expectedOrigin` (`http://localhost:3000`), `expectedRPID` (`localhost`), user presence (`UP`), and ECDSA P-256 signature counter. Confirmed that replaying a captured assertion (`T3`) fails with `HTTP 400` because challenges are immediately deleted from `req.session` upon first verification attempt, and mutating a signature byte fails with `HTTP 401`.

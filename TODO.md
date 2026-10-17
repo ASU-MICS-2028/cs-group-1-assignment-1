@@ -38,12 +38,12 @@ The brief says a visitor who isn't logged in should see only the login and regis
 - [x] **T1 credential ID:** the report says `tTSL95…`, but the log changes on every `npm test` run. Run the tests one last time, copy `credentialId` from `evidence/test-run-log.json` into the T1 row, and don't rerun after that. Alternatively, write "random per run".
 - [x] **Section 2.2 wording:** it says the grade endpoint is "not offered to students", but the UI shows the grade form and a "Request S002 Record" button to everyone. Change it to say the T6/T7 evidence comes from **direct curl requests that bypass the UI**. Those still meet the "request the UI did not offer" rule.
 - [x] Add the browser screenshots from step 1, with labels.
-- [ ] **Length: 2–3 pages maximum.** ~~Trim section 2.4 to just the two `if` checks.~~ Done. ~~Move Part B into `PART_B_ADDENDUM`.~~ Done (`PART_B_ADDENDUM.md`). Check the page count when exporting to PDF; if it runs over, drop Fig. 5 or the 2.3 log excerpt.
-- [ ] Keep section 4 (the analysis, renumbered from 3) between 250 and 350 words. It's 336 now, so don't add to it.
-- [ ] Export the report to PDF.
+- [x] **Length: 2–3 pages maximum.** Done: the PDF is 3 pages. ~~Trim section 2.4 to just the two `if` checks.~~ Done. ~~Move Part B into `PART_B_ADDENDUM`.~~ Done (`PART_B_ADDENDUM.md`). Check the page count when exporting to PDF; if it runs over, drop Fig. 5 or the 2.3 log excerpt.
+- [x] Keep section 3 (the analysis) between 250 and 350 words. It's 336 now, so don't add to it.
+- [x] Export the report to PDF. Done: `submission/ICS570-Lab2-Group1-Evidence-Report.pdf`.
 
 ## 4. Package and submit (one person submits for the whole group; Canvas allows 2 attempts)
 - [x] ~~`git add -A && git commit`~~ Done: the repo now has commits on `main` and on the `claude/blissful-galileo-k256pg` branch (UI redesign + evidence). Merge that branch before submitting.
 - [ ] Push to a repo the marker can access, **or** zip the folder **without `node_modules/`** and `data/db.json`.
 - [ ] Upload: the code (zip or link), `README.md`, the evidence report PDF, `AI_TOOLS_DECLARATION.md`, and the optional Part B addendum.
-- [ ] Before uploading, check that the README still fits on one page. It now includes a 2×2 screenshot grid; if it runs over, remove the grid (the screenshots are also in the evidence report).
+- [x] Before uploading, check that the README still fits on one page. Done: `submission/ICS570-Lab2-Group1-README.pdf` is 1 page. It now includes a 2×2 screenshot grid; if it runs over, remove the grid (the screenshots are also in the evidence report).
