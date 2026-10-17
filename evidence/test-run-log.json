@@ -1,5 +1,5 @@
 {
-  "executedAt": "2026-10-16T21:40:44.157Z",
+  "executedAt": "2026-10-16T22:28:24.894Z",
   "origin": "http://localhost:3000",
   "rpId": "localhost",
   "allPassed": true,
@@ -14,8 +14,8 @@
       "observed": {
         "verified": true,
         "userId": "S001",
-        "credentialId": "TtbmLFY2_yz56QYghMrjRsXm6kQOqnr0gbihtUU8ouQ",
-        "storedPublicKeyPrefix": "pQECAyYgASFYIOx14x8aeY2O..."
+        "credentialId": "9nzLvgSXok5xw7ZRJscYoU-yObvDfIOXx6McXJbS7E4",
+        "storedPublicKeyPrefix": "pQECAyYgASFYILT-KyijqL_2..."
       },
       "passed": true
     },
@@ -112,7 +112,7 @@
         "error": "Forbidden: Students may only view their own academic record."
       },
       "passed": true,
-      "rawCurlOutput": "HTTP/1.1 403 Forbidden\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 72\r\nETag: W/\"48-4BJC3RXLs01YSdNfzQ50s56hpoU\"\r\nDate: Fri, 16 Oct 2026 21:40:44 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"error\":\"Forbidden: Students may only view their own academic record.\"}"
+      "rawCurlOutput": "HTTP/1.1 403 Forbidden\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 72\r\nETag: W/\"48-4BJC3RXLs01YSdNfzQ50s56hpoU\"\r\nDate: Fri, 16 Oct 2026 22:28:24 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"error\":\"Forbidden: Students may only view their own academic record.\"}"
     },
     {
       "id": "T7",
@@ -129,7 +129,7 @@
         "gradeAfter": "B+"
       },
       "passed": true,
-      "rawCurlOutput": "HTTP/1.1 403 Forbidden\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 79\r\nETag: W/\"4f-GHPH5TMVeRHyUsc2Q3mCGKBBOnw\"\r\nDate: Fri, 16 Oct 2026 21:40:44 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"error\":\"Forbidden: Only lecturers assigned to the course may update grades.\"}"
+      "rawCurlOutput": "HTTP/1.1 403 Forbidden\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 79\r\nETag: W/\"4f-GHPH5TMVeRHyUsc2Q3mCGKBBOnw\"\r\nDate: Fri, 16 Oct 2026 22:28:24 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"error\":\"Forbidden: Only lecturers assigned to the course may update grades.\"}"
     },
     {
       "id": "T8",
@@ -153,7 +153,7 @@
               "grade": "A",
               "score": 94,
               "updatedBy": "L001",
-              "updatedAt": "2026-10-16T21:40:44.156Z"
+              "updatedAt": "2026-10-16T22:28:24.890Z"
             }
           ]
         }

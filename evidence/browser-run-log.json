@@ -1,0 +1,426 @@
+{
+  "executedAt": "2026-10-16T22:28:17.819Z",
+  "browser": "Chromium 141.0.7390.37 (Playwright) + CDP virtual authenticator (ctap2, internal, resident key, UV)",
+  "origin": "http://localhost:3000",
+  "allPassed": true,
+  "results": [
+    {
+      "id": "T1",
+      "actor": "S001",
+      "expected": "Credential registered; public key stored server-side",
+      "observed": "POST /auth/register/verify -> 200; authenticator holds 1 resident credential(s) for rpId \"localhost\"",
+      "passed": true
+    },
+    {
+      "id": "T2",
+      "actor": "S001",
+      "expected": "Fresh challenge verified; session created",
+      "observed": "POST /auth/login/verify -> 200; dashboard shown for S001",
+      "passed": true
+    },
+    {
+      "id": "T5",
+      "actor": "S001",
+      "expected": "Allowed",
+      "observed": "GET /students/S001 -> 200",
+      "passed": true
+    },
+    {
+      "id": "T3",
+      "actor": "S001 tab replaying/tampering",
+      "expected": "Rejected; no new session",
+      "observed": "POST /auth/login/verify -> 401, 401; session still S001",
+      "passed": true
+    },
+    {
+      "id": "T7",
+      "actor": "S001",
+      "expected": "Denied; grade unchanged",
+      "observed": "POST /courses/C101/grades/S001 -> 403; grade B+/84 -> B+/84",
+      "passed": true
+    },
+    {
+      "id": "T6",
+      "actor": "S001",
+      "expected": "Denied (403)",
+      "observed": "GET /students/S002 -> 403 via UI route, 403 via direct URL",
+      "passed": true
+    },
+    {
+      "id": "T4",
+      "actor": "Signed-out visitor",
+      "expected": "Denied (401)",
+      "observed": "GET /students/S001 -> 401 after POST /logout -> 200",
+      "passed": true
+    },
+    {
+      "id": "T8",
+      "actor": "L001",
+      "expected": "Allowed; lecturer/course relationship verified",
+      "observed": "POST /courses/C101/grades/S001 -> 200; grade now A/94 by L001",
+      "passed": true
+    }
+  ],
+  "virtualAuthenticatorCredentials": {
+    "S001": [
+      {
+        "credentialId": "mQOVkWS1AYEm3f1i+n/G7sr7mCKoCD+4zo3zesEkl04=",
+        "rpId": "localhost",
+        "isResidentCredential": true,
+        "signCount": 1
+      }
+    ]
+  },
+  "requests": [
+    {
+      "step": "T1 S001",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "step": "T1 S001",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T1 S001",
+      "actor": "S001",
+      "method": "POST",
+      "path": "/auth/register/options",
+      "status": 200
+    },
+    {
+      "step": "T1 S001",
+      "actor": "S001",
+      "method": "POST",
+      "path": "/auth/register/verify",
+      "status": 200
+    },
+    {
+      "step": "T2 S001",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T2 S001",
+      "actor": "S001",
+      "method": "POST",
+      "path": "/auth/login/options",
+      "status": 200
+    },
+    {
+      "step": "T2 S001",
+      "actor": "S001",
+      "method": "POST",
+      "path": "/auth/login/verify",
+      "status": 200
+    },
+    {
+      "step": "T2 S001",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T2 S001",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T2 S001",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/courses",
+      "status": 200
+    },
+    {
+      "step": "T2 S001",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/students/S001",
+      "status": 200
+    },
+    {
+      "step": "T5",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T5",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/students/S001",
+      "status": 200
+    },
+    {
+      "step": "T6",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T6",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/students/S002",
+      "status": 403
+    },
+    {
+      "step": "T3",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T3",
+      "actor": "S001",
+      "method": "POST",
+      "path": "/auth/login/options",
+      "status": 200
+    },
+    {
+      "step": "T3",
+      "actor": "S001",
+      "method": "POST",
+      "path": "/auth/login/verify",
+      "status": 401
+    },
+    {
+      "step": "T3",
+      "actor": "S001",
+      "method": "POST",
+      "path": "/auth/login/options",
+      "status": 200
+    },
+    {
+      "step": "T3",
+      "actor": "S001",
+      "method": "POST",
+      "path": "/auth/login/verify",
+      "status": 401
+    },
+    {
+      "step": "T3",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T3",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T7",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/students/S001",
+      "status": 200
+    },
+    {
+      "step": "T7",
+      "actor": "S001",
+      "method": "POST",
+      "path": "/courses/C101/grades/S001",
+      "status": 403
+    },
+    {
+      "step": "T7",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/students/S001",
+      "status": 200
+    },
+    {
+      "step": "T6",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/students/S002",
+      "status": 403
+    },
+    {
+      "step": "Logout",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "step": "Logout",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "Logout",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/courses",
+      "status": 200
+    },
+    {
+      "step": "Logout",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/students/S001",
+      "status": 200
+    },
+    {
+      "step": "Logout",
+      "actor": "S001",
+      "method": "POST",
+      "path": "/logout",
+      "status": 200
+    },
+    {
+      "step": "Logout",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T4",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T4",
+      "actor": "S001",
+      "method": "GET",
+      "path": "/students/S001",
+      "status": 401
+    },
+    {
+      "step": "T1 L001",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "step": "T1 L001",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T1 L001",
+      "actor": "L001",
+      "method": "POST",
+      "path": "/auth/register/options",
+      "status": 200
+    },
+    {
+      "step": "T1 L001",
+      "actor": "L001",
+      "method": "POST",
+      "path": "/auth/register/verify",
+      "status": 200
+    },
+    {
+      "step": "T2 L001",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T2 L001",
+      "actor": "L001",
+      "method": "POST",
+      "path": "/auth/login/options",
+      "status": 200
+    },
+    {
+      "step": "T2 L001",
+      "actor": "L001",
+      "method": "POST",
+      "path": "/auth/login/verify",
+      "status": 200
+    },
+    {
+      "step": "T2 L001",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T2 L001",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T2 L001",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/courses",
+      "status": 200
+    },
+    {
+      "step": "T2 L001",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/courses/C101",
+      "status": 200
+    },
+    {
+      "step": "T8",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/auth/session",
+      "status": 200
+    },
+    {
+      "step": "T8",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/courses/C101",
+      "status": 200
+    },
+    {
+      "step": "T8",
+      "actor": "L001",
+      "method": "POST",
+      "path": "/courses/C101/grades/S001",
+      "status": 200
+    },
+    {
+      "step": "T8",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/courses/C101",
+      "status": 200
+    },
+    {
+      "step": "T8",
+      "actor": "L001",
+      "method": "GET",
+      "path": "/students/S001",
+      "status": 200
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+[Portal] Ashesi Secure Student Records Portal running at http://localhost:3000
+[AUDIT] {"timestamp":"2026-10-16T22:28:12.703Z","event":"REGISTER_OPTIONS_ISSUED","userId":"S001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:12.717Z","event":"REGISTER_VERIFY_SUCCESS","userId":"S001","credentialId":"mQOVkWS1AYEm3f1i-n_G7sr7mCKoCD-4zo3zesEkl04","deviceType":"singleDevice"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:13.243Z","event":"LOGIN_OPTIONS_ISSUED","requestedUserId":"S001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:13.258Z","event":"LOGIN_SUCCESS","userId":"S001","role":"student","credentialId":"mQOVkWS1AYEm3f1i-n_G7sr7mCKoCD-4zo3zesEkl04"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:13.308Z","event":"AUTHZ_ALLOWED","actorId":"S001","actorRole":"student","action":"READ_STUDENT_RECORD","targetStudentId":"S001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:13.725Z","event":"AUTHZ_ALLOWED","actorId":"S001","actorRole":"student","action":"READ_STUDENT_RECORD","targetStudentId":"S001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:13.821Z","event":"AUTHZ_DENIED","actorId":"S001","actorRole":"student","action":"READ_STUDENT_RECORD","targetStudentId":"S002","reason":"Student attempted to access another student record (ownership violation)"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:13.989Z","event":"LOGIN_OPTIONS_ISSUED","requestedUserId":"discoverable"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:14.005Z","event":"LOGIN_VERIFY_REJECTED","userId":"S001","reason":"Unexpected authentication response challenge \"<redacted>\", expected \"<redacted>\""}
+[AUDIT] {"timestamp":"2026-10-16T22:28:14.011Z","event":"LOGIN_OPTIONS_ISSUED","requestedUserId":"discoverable"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:14.016Z","event":"LOGIN_VERIFY_REJECTED","userId":"S001","reason":"Unexpected authentication response challenge \"<redacted>\", expected \"<redacted>\""}
+[AUDIT] {"timestamp":"2026-10-16T22:28:14.250Z","event":"AUTHZ_ALLOWED","actorId":"S001","actorRole":"student","action":"READ_STUDENT_RECORD","targetStudentId":"S001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:14.391Z","event":"AUTHZ_DENIED","actorId":"S001","actorRole":"student","action":"UPDATE_COURSE_GRADE","courseId":"C101","targetStudentId":"S001","reason":"Non-lecturer attempted to invoke grade-update endpoint"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:14.895Z","event":"AUTHZ_ALLOWED","actorId":"S001","actorRole":"student","action":"READ_STUDENT_RECORD","targetStudentId":"S001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:15.042Z","event":"AUTHZ_DENIED","actorId":"S001","actorRole":"student","action":"READ_STUDENT_RECORD","targetStudentId":"S002","reason":"Student attempted to access another student record (ownership violation)"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:15.196Z","event":"AUTHZ_ALLOWED","actorId":"S001","actorRole":"student","action":"READ_STUDENT_RECORD","targetStudentId":"S001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:15.256Z","event":"LOGOUT_SUCCESS","actorId":"S001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:15.372Z","event":"AUTHN_DENIED","method":"GET","path":"/students/S001","reason":"Missing or invalidated session"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:16.526Z","event":"REGISTER_OPTIONS_ISSUED","userId":"L001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:16.540Z","event":"REGISTER_VERIFY_SUCCESS","userId":"L001","credentialId":"gHm6-01ysVtBX6uLh5wlVnpcPPp57HFSuRXIroDqkFM","deviceType":"singleDevice"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:16.689Z","event":"LOGIN_OPTIONS_ISSUED","requestedUserId":"L001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:16.705Z","event":"LOGIN_SUCCESS","userId":"L001","role":"lecturer","credentialId":"gHm6-01ysVtBX6uLh5wlVnpcPPp57HFSuRXIroDqkFM"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:17.173Z","event":"AUTHZ_ALLOWED","actorId":"L001","actorRole":"lecturer","action":"UPDATE_COURSE_GRADE","courseId":"C101","targetStudentId":"S001"}
+[AUDIT] {"timestamp":"2026-10-16T22:28:17.174Z","event":"GRADE_UPDATED","actorId":"L001","courseId":"C101","studentId":"S001","newGrade":"A","newScore":94}
+[AUDIT] {"timestamp":"2026-10-16T22:28:17.694Z","event":"AUTHZ_ALLOWED","actorId":"L001","actorRole":"lecturer","action":"READ_STUDENT_RECORD","targetStudentId":"S001"}
