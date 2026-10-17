@@ -39,7 +39,7 @@ The brief says a visitor who isn't logged in should see only the login and regis
 - [x] **Section 2.2 wording:** it says the grade endpoint is "not offered to students", but the UI shows the grade form and a "Request S002 Record" button to everyone. Change it to say the T6/T7 evidence comes from **direct curl requests that bypass the UI**. Those still meet the "request the UI did not offer" rule.
 - [x] Add the browser screenshots from step 1, with labels.
 - [x] **Length: 2–3 pages maximum.** Done: the PDF is 3 pages. ~~Trim section 2.4 to just the two `if` checks.~~ Done. ~~Move Part B into `PART_B_ADDENDUM`.~~ Done (`PART_B_ADDENDUM.md`). Check the page count when exporting to PDF; if it runs over, drop Fig. 5 or the 2.3 log excerpt.
-- [x] Keep section 3 (the analysis) between 250 and 350 words. It's 336 now, so don't add to it.
+- [x] Keep section 3 (the analysis) between 250 and 350 words. It's about 333 now, so don't add to it.
 - [x] Export the report to PDF. Done: `submission/ICS570-Lab2-Group1-Evidence-Report.pdf`.
 
 ## 4. Package and submit (one person submits for the whole group; Canvas allows 2 attempts)
