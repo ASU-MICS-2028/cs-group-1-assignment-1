@@ -3,6 +3,13 @@
 Passkey (WebAuthn/FIDO2) sign-in, per-request server-side RBAC and record-ownership checks, and an AES-256-GCM demo (Part B). All data is synthetic.
 **Group 1:** Elise Oyilonye Kennedy-Angbo (G35532028) · Joseph Delali Kodzo Etse (G90412028) · Liza Ekua Ndede Aikins (G01322028) · Eugene Emmanuel Sewor (G25522028)
 
+> **Submission:** the document submitted for this lab is the combined report **`ICS570-Lab2-Group1-Evidence-Report.pdf`**, uploaded to Canvas. It contains:
+> - the evidence report: T1–T8 results, direct-request evidence and the security analysis with the SLS ProSit 2 connection;
+> - this README;
+> - the AI/tools declaration.
+>
+> This repository holds the source code; the screenshots the report cites are in [`evidence/screenshots/`](evidence/screenshots/).
+
 <table>
 <tr>
 <td width="50%"><img src="docs/ui/01-sign-in.png" alt="Passkey sign-in"><br><sub>Passkey sign-in (T2)</sub></td>
@@ -55,4 +62,4 @@ Use Chrome, Edge or Safari at `http://localhost:3000`, a secure context. You can
 | T7 | As S001: **Submit Grade Update Request**, or `curl -X POST …/courses/C101/grades/S001 -d '{"grade":"A","score":100}'` with the S001 cookie | 403; grade stays B+ |
 | T8 | Enroll and sign in as `L001` → **Course Roster** → S001 = A / 94 → **Save** | 200; grade updated |
 
-Evidence: [`EVIDENCE_REPORT.md`](EVIDENCE_REPORT.md) · screenshots in [`evidence/screenshots/`](evidence/screenshots/) · [`PART_B_ADDENDUM.md`](PART_B_ADDENDUM.md) · [`AI_TOOLS_DECLARATION.md`](AI_TOOLS_DECLARATION.md)
+Evidence: the submitted report **`ICS570-Lab2-Group1-Evidence-Report.pdf`** (Canvas) · test logs in [`evidence/`](evidence/) · screenshots in [`evidence/screenshots/`](evidence/screenshots/)
